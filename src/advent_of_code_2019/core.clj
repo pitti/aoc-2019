@@ -7,19 +7,6 @@
   [& args]
   (println "Hello, World!"))
 
-
-
-(defn calc-fuel [weight]
-  (- (quot weight 3) 2))
-
-
-; tests from the puzzle
-(calc-fuel 12)
-(calc-fuel 14)
-(calc-fuel 1969)
-(calc-fuel 100756)
-
-
 (defn as-num-vector
   "Reads from the file and returns a vector of numbers"
   [file]
@@ -29,8 +16,29 @@
     )
   )
 
+(defn calc-fuel [weight]
+  (max 0
+    (- (quot weight 3) 2))
+  )
+
+(defn calc-fuel-star2
+  "Calculate the fuel for the given mass and the remaining fuel for that mass
+  until no more fuel is required."
+  [weight]
+
+  (if (zero? weight)
+    0
+    (let [rw (calc-fuel weight)]
+      (+ rw (calc-fuel-star2 rw))
+      )
+    ))
+
 ;; first result
 (reduce + 0
         (map calc-fuel
              (as-num-vector (io/resource "input1.txt"))))
 
+;; second star
+(reduce + 0
+        (map calc-fuel-star2
+             (as-num-vector (io/resource "input1.txt"))))
