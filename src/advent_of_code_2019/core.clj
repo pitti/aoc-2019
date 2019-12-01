@@ -33,12 +33,16 @@
       )
     ))
 
-;; first result
-(reduce + 0
-        (map calc-fuel
-             (as-num-vector (io/resource "input1.txt"))))
+(defn apply-and-sum
+  "Applies fn on the list of numbers in file and returns the sum of the operation"
+  [fn file]
+  (reduce + 0
+          (map fn (as-num-vector file))))
+
+
+;; first star
+(apply-and-sum calc-fuel (io/resource "input1.txt"))
 
 ;; second star
-(reduce + 0
-        (map calc-fuel-star2
-             (as-num-vector (io/resource "input1.txt"))))
+(apply-and-sum calc-fuel-star2 (io/resource "input1.txt"))
+
