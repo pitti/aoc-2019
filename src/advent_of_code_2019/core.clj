@@ -12,14 +12,11 @@
   [file]
   (with-open [rdr (io/reader file)]
     (map read-string
-         (reduce conj [] (line-seq rdr)))
-    )
-  )
+         (reduce conj [] (line-seq rdr)))))
 
 (defn calc-fuel [weight]
   (max 0
-    (- (quot weight 3) 2))
-  )
+       (- (quot weight 3) 2)))
 
 (defn calc-fuel-star2
   "Calculate the fuel for the given mass and the remaining fuel for that mass
@@ -29,9 +26,7 @@
   (if (zero? weight)
     0
     (let [rw (calc-fuel weight)]
-      (+ rw (calc-fuel-star2 rw))
-      )
-    ))
+      (+ rw (calc-fuel-star2 rw)))))
 
 (defn apply-and-sum
   "Applies fn on the list of numbers in file and returns the sum of the operation"
@@ -39,10 +34,7 @@
   (reduce + 0
           (map fn (as-num-vector file))))
 
-
-;; first star
-(apply-and-sum calc-fuel (io/resource "input1.txt"))
-
-;; second star
-(apply-and-sum calc-fuel-star2 (io/resource "input1.txt"))
+(let [f (io/resource "input1.txt")]
+  (println "Result for day1 star1 is" (apply-and-sum calc-fuel f))
+  (println "Result for day1 star2 is" (apply-and-sum calc-fuel-star2 f)))
 
