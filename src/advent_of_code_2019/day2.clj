@@ -24,7 +24,7 @@
   ([memory ip]
    (let [[instr pos1 pos2 target] (nthrest memory ip)]
      (if (= 99 instr)
-       memory
+       (first memory)
        (recur (execute-instr memory instr (nth memory pos1) (nth memory pos2) target)
               (+ ip 4))))))
 
