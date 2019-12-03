@@ -29,11 +29,17 @@
               (+ ip 4))))))
 
 (defn run
-  [op1 op2 memory]
+  [memory op1 op2]
   (run-program
    (assoc (assoc memory 1 op1) 2 op2)))
 
 
 ; solution star1
-(run 12 2 memory)
+(run memory 12 2)
 
+(def memo-run (memoize run))
+
+; solution star2
+(for [op1 (range 100) op2 (range 100)
+      :when (= 19690720 (memo-run memory op1 op2))]
+  (+ (* op1 100) op2))
